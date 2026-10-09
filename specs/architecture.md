@@ -99,6 +99,8 @@ stateDiagram-v2
 
 ![Customer login on AWS](./aws-architecture.svg)
 
+Editable source: [aws-architecture.drawio](./aws-architecture.drawio) (open in draw.io / diagrams.net).
+
 The icons are simplified, hand-drawn glyphs colored by AWS service category, not the official AWS Architecture Icons. For formal documents, redraw with the official icon set from AWS.
 
 | Logical component (sections 2-3) | AWS service | Notes |
