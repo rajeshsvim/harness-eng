@@ -94,3 +94,23 @@ stateDiagram-v2
     Expired --> [*]: redirect to login
     Ended --> [*]
 ```
+
+## 6. AWS Deployment View
+
+![Customer login on AWS](./aws-architecture.svg)
+
+The icons are simplified, hand-drawn glyphs colored by AWS service category, not the official AWS Architecture Icons. For formal documents, redraw with the official icon set from AWS.
+
+| Logical component (sections 2-3) | AWS service | Notes |
+|----------------------------------|-------------|-------|
+| Login UI | S3 + CloudFront | Static assets served via CDN |
+| Gateway / WAF | CloudFront + AWS WAF | TLS, managed rules, per-IP rate limiting |
+| DNS | Route 53 | |
+| Load balancing | Application Load Balancer | HTTPS with ACM certificate, public subnets |
+| Auth Service | ECS on Fargate | Private subnets across 2 AZs, auto scaling |
+| Credential Store | DynamoDB | Customer record, failed-attempt count, lock-until |
+| Session Store / rate counters | ElastiCache (Redis) | TTL-based sessions |
+| Audit Log | CloudWatch Logs, archived to S3 with Object Lock | Append-only retention |
+| Secrets and keys | Secrets Manager, KMS | KMS encrypts data at rest |
+
+These service choices are proposals. The stack is still an open question in the spec (Q7). An alternative is Amazon Cognito for authentication, which would replace the Auth Service, Credential Store and Session Store. Deciding that depends on the MFA and customer-ID requirements.

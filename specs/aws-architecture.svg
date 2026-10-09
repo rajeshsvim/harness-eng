@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1120 600" width="1120" height="600" font-family="Arial, Helvetica, sans-serif">
+  <title>Customer Login on AWS</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#232F3E"/>
+    </marker>
+    <!-- simplified glyphs (white on colored tile), 40x40 -->
+    <symbol id="g-user" viewBox="0 0 40 40"><circle cx="20" cy="13" r="7" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M6 36c0-9 6-13 14-13s14 4 14 13" fill="none" stroke="#fff" stroke-width="2.5"/></symbol>
+    <symbol id="g-globe" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="none" stroke="#fff" stroke-width="2.5"/><ellipse cx="20" cy="20" rx="6" ry="14" fill="none" stroke="#fff" stroke-width="2"/><path d="M6 20h28" stroke="#fff" stroke-width="2"/></symbol>
+    <symbol id="g-shield" viewBox="0 0 40 40"><path d="M20 5l13 5v10c0 8-6 13-13 16C13 33 7 28 7 20V10z" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M14 20l4 4 8-8" fill="none" stroke="#fff" stroke-width="2.5"/></symbol>
+    <symbol id="g-bucket" viewBox="0 0 40 40"><ellipse cx="20" cy="10" rx="13" ry="5" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M7 10l4 22c1 3 17 3 18 0l4-22" fill="none" stroke="#fff" stroke-width="2.5"/></symbol>
+    <symbol id="g-lb" viewBox="0 0 40 40"><circle cx="8" cy="20" r="4" fill="#fff"/><circle cx="32" cy="8" r="4" fill="#fff"/><circle cx="32" cy="20" r="4" fill="#fff"/><circle cx="32" cy="32" r="4" fill="#fff"/><path d="M12 20h16M11 18l17-9M11 22l17 9" stroke="#fff" stroke-width="2" fill="none"/></symbol>
+    <symbol id="g-cube" viewBox="0 0 40 40"><path d="M20 5l13 7v16l-13 7-13-7V12z" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M7 12l13 7 13-7M20 19v16" fill="none" stroke="#fff" stroke-width="2"/></symbol>
+    <symbol id="g-db" viewBox="0 0 40 40"><ellipse cx="20" cy="9" rx="12" ry="5" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M8 9v22c0 6 24 6 24 0V9M8 20c0 6 24 6 24 0" fill="none" stroke="#fff" stroke-width="2.5"/></symbol>
+    <symbol id="g-cache" viewBox="0 0 40 40"><path d="M23 4L9 22h10l-2 14 14-18H21z" fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></symbol>
+    <symbol id="g-lock" viewBox="0 0 40 40"><rect x="8" y="18" width="24" height="17" rx="2" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M13 18v-5a7 7 0 0114 0v5" fill="none" stroke="#fff" stroke-width="2.5"/><circle cx="20" cy="27" r="2.5" fill="#fff"/></symbol>
+    <symbol id="g-key" viewBox="0 0 40 40"><circle cx="13" cy="20" r="7" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M20 20h16M30 20v6M35 20v5" fill="none" stroke="#fff" stroke-width="2.5"/></symbol>
+    <symbol id="g-chart" viewBox="0 0 40 40"><path d="M6 6v28h28" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M11 26l7-8 6 5 9-12" fill="none" stroke="#fff" stroke-width="2.5"/></symbol>
+    <symbol id="g-search" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M25 25l10 10" stroke="#fff" stroke-width="3"/></symbol>
+  </defs>
+
+  <rect width="1120" height="600" fill="#fff"/>
+  <text x="20" y="28" font-size="18" font-weight="bold" fill="#232F3E">Customer Login: AWS Reference Architecture</text>
+  <text x="20" y="46" font-size="11" fill="#555">Simplified AWS-style icons (category colors). Swap in the official AWS Architecture Icons for formal documents.</text>
+
+  <!-- AWS Cloud / Region / VPC boundaries -->
+  <rect x="190" y="60" width="920" height="525" rx="6" fill="none" stroke="#232F3E" stroke-width="2"/>
+  <text x="200" y="78" font-size="12" font-weight="bold" fill="#232F3E">AWS Cloud, Region (multi-AZ)</text>
+
+  <rect x="400" y="95" width="695" height="480" rx="6" fill="#F4FAF0" stroke="#7AA116" stroke-width="2"/>
+  <text x="410" y="113" font-size="12" font-weight="bold" fill="#3B6E00">VPC</text>
+
+  <rect x="415" y="195" width="140" height="190" rx="4" fill="#fff" stroke="#7AA116" stroke-dasharray="5 4"/>
+  <text x="425" y="212" font-size="11" fill="#3B6E00">Public subnets (2 AZ)</text>
+
+  <rect x="585" y="125" width="200" height="330" rx="4" fill="#fff" stroke="#00A4A6" stroke-dasharray="5 4"/>
+  <text x="595" y="142" font-size="11" fill="#007F80">Private subnets (2 AZ)</text>
+
+  <rect x="815" y="125" width="270" height="440" rx="4" fill="#fff" stroke="#8C4FFF" stroke-dasharray="5 4"/>
+  <text x="825" y="142" font-size="11" fill="#6B2FD9">Data / security / audit (via VPC endpoints)</text>
+
+  <!-- Services: tile 56x56, label below -->
+  <!-- Customer -->
+  <g transform="translate(40,260)"><rect width="56" height="56" rx="6" fill="#232F3E"/><use xlink:href="#g-user" href="#g-user" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">Customer</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">browser</text></g>
+  <!-- Route 53 -->
+  <g transform="translate(215,260)"><rect width="56" height="56" rx="6" fill="#8C4FFF"/><use xlink:href="#g-globe" href="#g-globe" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">Route 53</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">DNS</text></g>
+  <!-- CloudFront -->
+  <g transform="translate(310,260)"><rect width="56" height="56" rx="6" fill="#8C4FFF"/><use xlink:href="#g-globe" href="#g-globe" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">CloudFront</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">CDN, TLS</text></g>
+  <!-- WAF -->
+  <g transform="translate(310,130)"><rect width="56" height="56" rx="6" fill="#DD344C"/><use xlink:href="#g-shield" href="#g-shield" x="8" y="8" width="40" height="40"/><text x="66" y="26" font-size="12" fill="#232F3E">AWS WAF</text><text x="66" y="40" font-size="10" fill="#555">rate limit, rules</text></g>
+  <!-- S3 UI -->
+  <g transform="translate(310,420)"><rect width="56" height="56" rx="6" fill="#7AA116"/><use xlink:href="#g-bucket" href="#g-bucket" x="8" y="8" width="40" height="40"/><text x="66" y="26" font-size="12" fill="#232F3E">S3</text><text x="66" y="40" font-size="10" fill="#555">login UI assets</text></g>
+  <!-- ALB -->
+  <g transform="translate(457,260)"><rect width="56" height="56" rx="6" fill="#8C4FFF"/><use xlink:href="#g-lb" href="#g-lb" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">ALB</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">HTTPS (ACM cert)</text></g>
+  <!-- ECS Fargate -->
+  <g transform="translate(657,260)"><rect width="56" height="56" rx="6" fill="#ED7100"/><use xlink:href="#g-cube" href="#g-cube" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">ECS Fargate</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">Auth Service</text><text x="28" y="101" font-size="10" text-anchor="middle" fill="#555">(auto scaling)</text></g>
+
+  <!-- Data column -->
+  <g transform="translate(840,160)"><rect width="56" height="56" rx="6" fill="#C925D1"/><use xlink:href="#g-db" href="#g-db" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">DynamoDB</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">credentials, lockout</text></g>
+  <g transform="translate(840,290)"><rect width="56" height="56" rx="6" fill="#C925D1"/><use xlink:href="#g-cache" href="#g-cache" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">ElastiCache</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">sessions, rate limits</text></g>
+  <g transform="translate(840,430)"><rect width="56" height="56" rx="6" fill="#DD344C"/><use xlink:href="#g-lock" href="#g-lock" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">Secrets Manager</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">config, secrets</text></g>
+  <g transform="translate(985,430)"><rect width="56" height="56" rx="6" fill="#DD344C"/><use xlink:href="#g-key" href="#g-key" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">KMS</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">encryption keys</text></g>
+  <g transform="translate(985,160)"><rect width="56" height="56" rx="6" fill="#E7157B"/><use xlink:href="#g-chart" href="#g-chart" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">CloudWatch</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">logs, metrics, alarms</text></g>
+  <g transform="translate(985,290)"><rect width="56" height="56" rx="6" fill="#7AA116"/><use xlink:href="#g-bucket" href="#g-bucket" x="8" y="8" width="40" height="40"/><text x="28" y="74" font-size="12" text-anchor="middle" fill="#232F3E">S3 (Object Lock)</text><text x="28" y="88" font-size="10" text-anchor="middle" fill="#555">audit archive</text></g>
+
+  <!-- Connections -->
+  <g stroke="#232F3E" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <path d="M96 288H213"/>
+    <path d="M271 288H308"/>
+    <path d="M366 288H455"/>
+    <path d="M513 288H655"/>
+    <path d="M713 275L838 200"/>
+    <path d="M713 288L838 312"/>
+    <path d="M713 300L838 450"/>
+  </g>
+  <g stroke="#232F3E" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-end="url(#arr)">
+    <path d="M338 258V190"/>
+    <path d="M338 356V418"/>
+    <path d="M700 258V118H950V188H983"/>
+    <path d="M713 310H760V404H950V330H983"/>
+  </g>
+  <!-- labels on connections -->
+  <text x="155" y="280" font-size="10" fill="#232F3E" text-anchor="middle">HTTPS</text>
+  <text x="410" y="278" font-size="10" fill="#232F3E" text-anchor="middle">login API</text>
+  <text x="346" y="228" font-size="10" fill="#232F3E">inspect</text>
+  <text x="346" y="392" font-size="10" fill="#232F3E">static</text>
+  <text x="838" y="545" font-size="10" fill="#555">KMS encrypts DynamoDB, ElastiCache, S3, Secrets</text>
+
+  <!-- Legend -->
+  <g transform="translate(20,470)" font-size="11" fill="#232F3E">
+    <text y="0" font-weight="bold">Legend</text>
+    <rect y="10" width="14" height="14" fill="#ED7100"/><text x="22" y="22">Compute</text>
+    <rect y="30" width="14" height="14" fill="#C925D1"/><text x="22" y="42">Database</text>
+    <rect y="50" width="14" height="14" fill="#8C4FFF"/><text x="22" y="62">Networking</text>
+    <rect y="70" width="14" height="14" fill="#DD344C"/><text x="22" y="82">Security</text>
+    <rect y="90" width="14" height="14" fill="#E7157B"/><text x="22" y="102">Management</text>
+    <rect y="110" width="14" height="14" fill="#7AA116"/><text x="22" y="122">Storage</text>
+  </g>
+</svg>
