@@ -7,7 +7,7 @@ allowed-tools: Bash(git:*), Bash(gh pr:*), Bash(mvn:*), Bash(./mvnw:*), Bash(cur
 # Fix SonarQube issues in a Spring Boot PR
 
 Arguments: `$ARGUMENTS`
-- First argument (optional): PR number. If omitted, detect it with `gh pr view --json number -q .number`; if there is no PR, use the current branch against `main`.
+- First argument (optional): PR number. If omitted, do not look for a PR: run against the current branch (`git branch --show-current`) compared with `main`, and use the branch (not pull request) parameters below.
 - `--report-only`: generate the report but do not change any code.
 
 ## Prerequisites (check first, stop and tell the user if missing)
@@ -22,13 +22,13 @@ Arguments: `$ARGUMENTS`
 
 2. **Run the analysis.**
    - Maven: `mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.token=$SONAR_TOKEN -Dsonar.projectKey=$KEY`
-   - Add pull request parameters when a PR number is known: `-Dsonar.pullrequest.key=<n> -Dsonar.pullrequest.branch=<head-branch> -Dsonar.pullrequest.base=main`. Pull request analysis requires SonarQube Developer Edition or higher. On Community Edition, omit them, scan the branch, and filter results to the changed files from step 1.
+   - Add pull request parameters only when a PR number was provided: `-Dsonar.pullrequest.key=<n> -Dsonar.pullrequest.branch=<head-branch> -Dsonar.pullrequest.base=main`. Pull request analysis requires SonarQube Developer Edition or higher. With no PR number, add `-Dsonar.branch.name=<current-branch>` instead (also Developer Edition or higher). On Community Edition, omit all of these, scan the project, and filter results to the changed files from step 1.
    - If the build or tests fail, report that and stop. Do not fix Sonar issues on a broken build.
 
 3. **Fetch results** from the SonarQube API (authenticate with `curl -s -u "$SONAR_TOKEN:"`):
-   - Quality gate: `$SONAR_HOST_URL/api/qualitygates/project_status?projectKey=$KEY&pullRequest=<n>`
-   - Issues: `$SONAR_HOST_URL/api/issues/search?componentKeys=$KEY&pullRequest=<n>&resolved=false&ps=500` (use `&branch=<name>` instead of `pullRequest` on Community Edition)
-   - Security hotspots: `$SONAR_HOST_URL/api/hotspots/search?projectKey=$KEY&pullRequest=<n>`
+   - Quality gate: `$SONAR_HOST_URL/api/qualitygates/project_status?projectKey=$KEY&pullRequest=<n>` (or `&branch=<current-branch>`)
+   - Issues: `$SONAR_HOST_URL/api/issues/search?componentKeys=$KEY&pullRequest=<n>&resolved=false&ps=500` (use `&branch=<current-branch>` instead of `pullRequest` when no PR number was provided, or on Community Edition)
+   - Security hotspots: `$SONAR_HOST_URL/api/hotspots/search?projectKey=$KEY&pullRequest=<n>` (or `&branch=<current-branch>`)
    - Wait for the analysis task to finish before querying (poll `api/ce/task` or `.scannerwork/report-task.txt`).
 
 4. **Write the report** to `reports/sonar-report.md` (create the directory; this is generated output, do not commit it unless asked). Include:
