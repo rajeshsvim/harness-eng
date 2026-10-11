@@ -1,7 +1,7 @@
 ---
 description: Run SonarQube on the current PR (vs main), generate a report, and fix the issues in changed code
 argument-hint: [pr-number] [--report-only]
-allowed-tools: Bash(git:*), Bash(gh pr:*), Bash(mvn:*), Bash(./mvnw:*), Bash(./gradlew:*), Bash(gradle:*), Bash(curl:*), Bash(jq:*), Read, Edit, Write, Grep, Glob, AskUserQuestion
+allowed-tools: Bash(git:*), Bash(gh pr:*), Bash(mvn:*), Bash(./mvnw:*), Bash(curl:*), Bash(jq:*), Read, Edit, Write, Grep, Glob, AskUserQuestion
 ---
 
 # Fix SonarQube issues in a Spring Boot PR
@@ -13,8 +13,8 @@ Arguments: `$ARGUMENTS`
 ## Prerequisites (check first, stop and tell the user if missing)
 
 - Environment variables `SONAR_HOST_URL` and `SONAR_TOKEN` are set. Never print the token or put it in a file, commit, or the report.
-- `SONAR_PROJECT_KEY` is set, or can be read from `sonar.projectKey` in `pom.xml`, `build.gradle(.kts)` or `sonar-project.properties`.
-- The build tool is detected from the repo root: `pom.xml` (use `./mvnw` if present, else `mvn`) or `build.gradle(.kts)` (use `./gradlew` if present).
+- `SONAR_PROJECT_KEY` is set, or can be read from `sonar.projectKey` in `pom.xml` or `sonar-project.properties`.
+- The project is a Maven build: `pom.xml` exists at the repo root. Use `./mvnw` if present, else `mvn`. If there is no `pom.xml`, stop and tell the user.
 
 ## Steps
 
@@ -22,7 +22,6 @@ Arguments: `$ARGUMENTS`
 
 2. **Run the analysis.**
    - Maven: `mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.token=$SONAR_TOKEN -Dsonar.projectKey=$KEY`
-   - Gradle: `./gradlew test jacocoTestReport sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.token=$SONAR_TOKEN -Dsonar.projectKey=$KEY`
    - Add pull request parameters when a PR number is known: `-Dsonar.pullrequest.key=<n> -Dsonar.pullrequest.branch=<head-branch> -Dsonar.pullrequest.base=main`. Pull request analysis requires SonarQube Developer Edition or higher. On Community Edition, omit them, scan the branch, and filter results to the changed files from step 1.
    - If the build or tests fail, report that and stop. Do not fix Sonar issues on a broken build.
 
@@ -55,7 +54,7 @@ Arguments: `$ARGUMENTS`
    - Missing coverage on new code: add focused unit tests for the changed logic when the gate fails on coverage.
    - Do not change public API behavior, database schemas, or dependency versions without asking.
 
-6. **Verify.** Run the unit tests (`mvn -B test` or `./gradlew test`) after fixing. If tests fail because of your change, fix or revert it. Then re-run step 2 and 3 once and update the report with the new counts and gate status.
+6. **Verify.** Run the unit tests (`mvn -B test`) after fixing. If tests fail because of your change, fix or revert it. Then re-run step 2 and 3 once and update the report with the new counts and gate status.
 
 7. **Summarize** to the user: gate status before and after, issues fixed, issues skipped or needing a decision (with reasons), and the report path. Do not commit or push. Offer to do so.
 
