@@ -1,7 +1,7 @@
 ---
 description: Run SonarQube on the current PR (vs main), generate a report, and fix the issues in changed code
 argument-hint: [pr-number] [--report-only]
-allowed-tools: Bash(git:*), Bash(gh pr:*), Bash(mvn:*), Bash(./mvnw:*), Bash(./gradlew:*), Bash(gradle:*), Bash(curl:*), Bash(jq:*), Read, Edit, Write, Grep, Glob
+allowed-tools: Bash(git:*), Bash(gh pr:*), Bash(mvn:*), Bash(./mvnw:*), Bash(./gradlew:*), Bash(gradle:*), Bash(curl:*), Bash(jq:*), Read, Edit, Write, Grep, Glob, AskUserQuestion
 ---
 
 # Fix SonarQube issues in a Spring Boot PR
@@ -37,10 +37,18 @@ Arguments: `$ARGUMENTS`
    - Counts by type (Bug, Vulnerability, Code Smell, Security Hotspot) and severity
    - Coverage and duplication on new code, if the gate reports them
    - Issues grouped by file, each with rule key, severity, line, message
-   - A "Fixed / Skipped / Needs human decision" section, filled in after step 5
+   - A "Fixed / Skipped / Needs human decision / Not selected" section, filled in after step 5
 
-5. **Fix the issues** (skip this step with `--report-only`):
-   - Work only on issues in files changed by the PR. Order: Blocker, Critical, Major, then the rest.
+5. **Ask what to fix, then fix by criticality** (skip this whole step with `--report-only`):
+   - **Present the report first.** Show a short table in the chat: severity (Blocker, Critical, Major, Minor, Info) x type (Bug, Vulnerability, Code Smell, Security Hotspot) with counts, plus the five most severe issues (file:line, rule, message). Mention the full report path.
+   - **Ask before changing any code** with `AskUserQuestion`. Do not start fixing until the user answers.
+     - Question 1 (single select), "Which severity levels should I fix?": `Blocker + Critical only`, `Blocker + Critical + Major`, `All severities`, `Let me pick specific issues`. Only offer tiers that actually have issues.
+     - If the user picks specific issues, or the count is large, ask a follow-up (multi-select, up to 4 options per question, grouped by severity or by file) to choose the exact issues or files. List more with several questions or accept an "Other" answer such as rule keys or issue IDs.
+     - Question 2 (single select), "How should I handle security hotspots and vulnerabilities?": `Fix where the fix is clear, list the rest`, `Report only, do not touch`.
+   - If the user selects nothing or cancels, stop and keep the report only.
+   - Fix **only the issues the user selected**, in files changed by the PR, in this order: Blocker, Critical, Major, Minor, Info. Finish and verify each severity tier (compile, then the affected tests) before starting the next, so a problem surfaces at the most critical level first.
+   - Record each selected issue as Fixed, Skipped (with reason), or Needs human decision in the report.
+   - Unselected issues stay open and are listed in the report as "Not selected".
    - Fix the root cause. Never silence an issue with `@SuppressWarnings`, `//NOSONAR`, or by editing Sonar rules or exclusions.
    - Typical Spring Boot fixes: constructor injection instead of field `@Autowired`; no `@Transactional` on private methods; close resources with try-with-resources; avoid returning entities from controllers (use DTOs); parameterised queries instead of string-built SQL; no hardcoded credentials (move to config or environment); replace `System.out`/`printStackTrace` with SLF4J logging; avoid catching generic `Exception`/`Throwable`.
    - Security hotspots and vulnerabilities: fix when the fix is clear. Otherwise list them under "Needs human decision" with an explanation. Do not mark hotspots as reviewed.
